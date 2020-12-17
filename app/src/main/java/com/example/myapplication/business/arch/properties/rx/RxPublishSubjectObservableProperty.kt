@@ -6,7 +6,6 @@ import com.example.myapplication.foundation.arch.properties.ObservableProperty
 import com.example.myapplication.foundation.arch.properties.read.ObservableReadProperty
 import com.example.myapplication.foundation.arch.properties.write.WriteProperty
 import io.reactivex.subjects.PublishSubject
-import kotlin.reflect.KProperty
 
 /**
  * Observable Property that uses Rx underneath. Note, an implementor can check the type and

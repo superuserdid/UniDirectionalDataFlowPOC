@@ -1,31 +1,28 @@
 package com.example.myapplication
 
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import com.example.myapplication.arch.BurnerListInteractor
-import com.example.myapplication.arch.BurnerListRepository
-import com.example.myapplication.arch.BurnerListViewModel
-import com.example.myapplication.arch.impl.BurnerListDataModelConverter
+import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication.arch.BurnerListContract
 import com.example.myapplication.arch.impl.BurnerListInteractorImpl
-import com.example.myapplication.arch.impl.BurnerListReadableModelCreator
 import com.example.myapplication.arch.impl.BurnerListRepositoryImpl
 import com.example.myapplication.arch.impl.BurnerListViewModelImpl
-import com.example.myapplication.arch.impl.BurnerListWritableModelCreator
+import com.example.myapplication.arch.impl.converter.BurnerListDataModelConverter
+import com.example.myapplication.arch.impl.converter.BurnerListResponseModelConverter
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
-    private val interactor: BurnerListInteractor = BurnerListInteractorImpl(
-        repository = BurnerListRepositoryImpl(),
-        converter = BurnerListDataModelConverter(),
-        writableCreator = BurnerListWritableModelCreator(),
-        readableCreator = BurnerListReadableModelCreator()
+    private val interactor: BurnerListContract.Interactor = BurnerListInteractorImpl(
+        repository = BurnerListRepositoryImpl(
+            BurnerListResponseModelConverter()
+        ),
+        converter = BurnerListDataModelConverter()
     )
 
-    private val viewModel: BurnerListViewModel = BurnerListViewModelImpl(
+    private val viewModel: BurnerListContract.ViewModel = BurnerListViewModelImpl(
         interactor
     )
 

@@ -6,7 +6,6 @@ import com.example.myapplication.business.arch.properties.livedata.write.LiveDat
 import com.example.myapplication.foundation.arch.properties.ObservableProperty
 import com.example.myapplication.foundation.arch.properties.read.ObservableReadProperty
 import com.example.myapplication.foundation.arch.properties.write.WriteProperty
-import kotlin.reflect.KProperty
 
 class LiveDataObservableProperty<T>(
     private val liveData: MutableLiveData<T> = MutableLiveData()
