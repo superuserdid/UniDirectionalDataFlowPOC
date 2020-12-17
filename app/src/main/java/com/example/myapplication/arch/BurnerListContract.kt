@@ -24,13 +24,13 @@ interface BurnerListContract {
 
     interface Repository {
 
-        fun fetch(callback: (ResponseModel) -> Unit)
+        suspend fun fetch(): ResponseModel
     }
 
     interface Interactor {
 
         fun onColorChange(value: Int)
 
-        fun fetchDataModel(callback: (DataModel) -> Unit)
+        suspend fun fetchDataModel(): DataModel
     }
 }

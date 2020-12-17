@@ -3,6 +3,10 @@ package com.example.myapplication.arch.impl
 import com.example.myapplication.arch.BurnerListContract
 import com.example.myapplication.arch.models.ResponseModel
 import com.example.myapplication.foundation.arch.converter.Converter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
+import kotlin.coroutines.CoroutineContext
 
 /**
  * The interactor is responsible for interacting with the data source and preparing the
@@ -10,7 +14,8 @@ import com.example.myapplication.foundation.arch.converter.Converter
  */
 class BurnerListInteractorImpl(
     private val repository: BurnerListContract.Repository,
-    private val converter: Converter<ResponseModel, BurnerListDataModelImpl>
+    private val converter: Converter<ResponseModel, BurnerListDataModelImpl>,
+    private val dispatcher: CoroutineContext
 ): BurnerListContract.Interactor {
 
     private var dataModel: BurnerListDataModelImpl? = null
@@ -19,11 +24,10 @@ class BurnerListInteractorImpl(
         dataModel?.setColor(value)
     }
 
-    override fun fetchDataModel(callback: (BurnerListContract.DataModel) -> Unit) {
-        repository.fetch { response ->
-            converter.convert(response) { dataModel ->
-                this.dataModel = dataModel
-                callback(dataModel)
+    override suspend fun fetchDataModel(): BurnerListContract.DataModel {
+        return withContext(dispatcher) {
+            converter.convert(repository.fetch()).apply {
+                this@BurnerListInteractorImpl.dataModel = this
             }
         }
     }

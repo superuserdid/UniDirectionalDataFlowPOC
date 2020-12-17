@@ -12,18 +12,24 @@ import com.example.myapplication.arch.impl.converter.BurnerListDataModelConverte
 import com.example.myapplication.arch.impl.converter.BurnerListResponseModelConverter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Dispatchers
 
 class MainActivity : AppCompatActivity() {
 
+    private val businessLayerContext = Dispatchers.IO
+    private val uiLayerContext = Dispatchers.Main
     private val interactor: BurnerListContract.Interactor = BurnerListInteractorImpl(
         repository = BurnerListRepositoryImpl(
-            BurnerListResponseModelConverter()
+            BurnerListResponseModelConverter(businessLayerContext),
+            businessLayerContext
         ),
-        converter = BurnerListDataModelConverter()
+        converter = BurnerListDataModelConverter(businessLayerContext),
+        dispatcher = businessLayerContext
     )
 
     private val viewModel: BurnerListContract.ViewModel = BurnerListViewModelImpl(
-        interactor
+        interactor,
+        uiLayerContext
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
