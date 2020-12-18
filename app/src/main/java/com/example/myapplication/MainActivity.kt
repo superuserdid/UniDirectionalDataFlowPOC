@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
             businessLayerContext
         ),
         converter = BurnerListDataModelConverter(businessLayerContext),
-        dispatcher = businessLayerContext
+        coroutineContext = businessLayerContext
     )
 
     private val viewModel: BurnerListContract.ViewModel = BurnerListViewModelImpl(
